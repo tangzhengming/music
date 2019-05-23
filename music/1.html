@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul class="stats">
+        <li id="a" data-value="200" data-time="3"></li>
+        <li id="a" data-value="500" data-time="3"></li>
+    </ul>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+        function work(ele, start, end, time) {  // 开始值，结束值，间隔时间
+    var timeStart = +new Date;
+    var numSpan = end - start;   //相隔的数值
+ 
+    var timeEnd, // 结束时间
+        timer;   //定时器
+ 
+    timer = setInterval(function () {
+        timeEnd = +new Date;  //当前时间
+ 
+        var timeSpan = timeEnd - timeStart;  // 当前间隔时间
+ 
+        // timeSpan / time= x / numSpan;   间隔时间/实际间隔时间 = (当前间隔值) / 总间隔数值
+        var span = numSpan * timeSpan / time;  //当前间隔值
+        ele.html(~~(start + span));
+ 
+        if (timeSpan > time) {   //超时清空
+            ele.html(end);
+            var end = +new Date;
+            console.log("一个计时完成：" + end);
+            console.log("误差值为：" + (end - endTime));
+            clearInterval(timer);
+        }
+ 
+    }, 16);
+}
+ 
+var liArr = $(".stats li");
+ 
+var startTime = +new Date;               //开始时间
+var endTime = startTime + 1000 * 2;      //理论结束时间
+ 
+console.log("开始时间：" + startTime);
+ 
+$.each(liArr, function () {
+    var self = $(this),
+        start = 0,                                 //起始值
+        end = self.attr("data-value"),             //结束值
+        time = +self.attr("data-time") * 1000;     //间隔时间
+    work(self, start, end, time);
+});
+        </script>
+</body>
+</html>
